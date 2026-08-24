@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-void: #0a0b16;
+  --color-void-deep: #050510;
+  --color-panel: #12142b;
+  --color-panel-line: rgba(155, 93, 229, 0.16);
+
+  --color-paragon: #9b5de5;
+  --color-paragon-glow: #c77dff;
+
+  --color-survival: #8b5cf6;
+  --color-lifesteal: #ef4444;
+  --color-earth: #3b82f6;
+  --color-minigames: #22c55e;
+  --color-community: #f5a623;
+
+  --color-text: #ece9f7;
+  --color-text-muted: #9c98b5;
+  --color-text-faint: #6b6885;
+
+  --font-display: var(--font-cinzel), serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  --animate-emblem-pulse: emblem-pulse 4.5s ease-in-out infinite;
+  --animate-scroll-cue-move: scroll-cue-move 1.8s ease-in-out infinite;
+  --animate-partners-spin: partners-spin 18s linear infinite;
+  --animate-partners-spin-reverse: partners-spin 12s linear infinite reverse;
+}
+
+@keyframes emblem-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px rgba(199, 125, 255, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 26px rgba(199, 125, 255, 0.8));
+  }
+}
+
+@keyframes scroll-cue-move {
+  0% {
+    opacity: 1;
+    top: 6px;
+  }
+  70% {
+    opacity: 0;
+    top: 18px;
+  }
+  100% {
+    opacity: 0;
+    top: 6px;
+  }
+}
+
+@keyframes partners-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-paragon-glow);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-block rounded-full px-[30px] py-[14px] font-body text-sm font-bold tracking-wide transition duration-200 ease-out;
+  }
+  .btn-primary {
+    @apply text-white shadow-[0_0_24px_rgba(155,93,229,0.45)] bg-gradient-to-br from-paragon to-[#6d28d9] hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(199,125,255,0.65)];
+  }
+  .btn-ghost {
+    @apply border border-panel-line text-text hover:border-paragon-glow hover:text-paragon-glow;
+  }
+
+  .eyebrow {
+    @apply mb-2.5 text-center font-mono text-xs tracking-[0.18em] text-paragon-glow;
+  }
+
+  .section-title {
+    @apply mb-14 text-center font-display text-[clamp(28px,4vw,40px)] text-text;
+  }
+
+  .mode-card {
+    --rift: var(--color-paragon);
+    @apply relative overflow-hidden rounded-[14px] border border-panel-line bg-gradient-to-b from-panel to-panel/50 px-[22px] pt-7 pb-[26px] transition duration-300 ease-out hover:-translate-y-1.5;
+  }
+  .mode-card:hover {
+    border-color: var(--rift);
+  }
+  .mode-card::before {
+    content: "";
+    position: absolute;
+    inset: -40% -40% auto auto;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, var(--rift), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+  .mode-card:hover::before {
+    opacity: 0.22;
+  }
+
+  .connect-card {
+    @apply rounded-[14px] border border-panel-line bg-panel p-[26px] text-center;
+  }
+
+  .connect-value {
+    @apply flex w-full items-center justify-center gap-2.5 rounded-[10px] border border-panel-line bg-black/25 px-4 py-3.5 font-mono text-[14.5px] text-text transition duration-200 ease-out hover:border-paragon-glow hover:bg-paragon/8;
+  }
+
+  .tag-pill {
+    @apply rounded-full border border-panel-line px-2.5 py-1 text-[11.5px] text-text-muted;
+  }
+
+  .partner-card {
+    @apply flex flex-col overflow-hidden rounded-[14px] border border-panel-line bg-gradient-to-b from-panel to-panel/50 transition duration-300 ease-out hover:-translate-y-1 hover:border-paragon-glow;
+  }
+
+  .partner-btn {
+    @apply flex-1 rounded-full border border-panel-line px-3.5 py-2.5 text-center text-[13px] font-bold text-text transition duration-200 ease-out hover:border-paragon-glow hover:text-paragon-glow;
+  }
+
+  .partner-btn-primary {
+    @apply border-none bg-gradient-to-br from-paragon to-[#6d28d9] text-white hover:text-white hover:opacity-90;
+  }
+}
