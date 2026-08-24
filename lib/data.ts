@@ -81,6 +81,12 @@ export const connectCards: ConnectCard[] = [
     copy: "paragonnetwork.usa@gmail.com",
     tags: ["Business & support"],
   },
+  {
+    label: "Staff Applications",
+    value: "Apply Now",
+    href: "https://forms.gle/kLN4kk4oYATqjhae7",
+    tags: ["Join the team"],
+  },
 ];
 
 export interface VoteLink {
