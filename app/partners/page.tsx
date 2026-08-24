@@ -1,95 +1,116 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { PageHero } from "@/components/PageHero";
+import { Reveal } from "@/components/Reveal";
 import { CopyButton } from "@/components/CopyButton";
-import { partners } from "@/lib/data";
+import { CopyGlyph, ExternalGlyph } from "@/components/icons";
+import { partners, DISCORD_URL } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Partners — Paragon Network",
+  title: "Partners",
   description: "Servers and communities partnered with Paragon Network.",
 };
 
 export default function PartnersPage() {
   return (
     <>
-      <section
-        className="py-40 pb-[60px] text-center"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 55% at 50% 0%, rgba(155,93,229,0.14), transparent 60%), linear-gradient(180deg, var(--color-void-deep), var(--color-void) 70%)",
-        }}
-      >
-        <div className="mx-auto max-w-[1140px] px-6">
-          <p className="eyebrow mb-3.5">THE PARAGON ALLIANCE</p>
-          <h1 className="mb-3.5 font-display text-[clamp(32px,5vw,52px)] text-text">Our Partners</h1>
-          <p className="mx-auto max-w-[56ch] text-[15.5px] leading-[1.7] text-text-muted">
-            The servers and communities we work alongside — cross-promoted to our player base and featured right
-            here on the hub.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="The Paragon alliance"
+        title="Our partners"
+        subtitle="The servers and communities we work alongside — cross-promoted to our player base and featured right here on the hub."
+      />
 
-      <section className="py-5 pb-[120px]">
-        <div className="mx-auto max-w-[1140px] px-6">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-[22px]">
-            {partners.map((partner) => (
-              <article key={partner.name} className="partner-card">
-                <div className="relative aspect-[21/9] w-full">
-                  <Image src={partner.banner} alt={partner.name} fill className="object-cover" />
-                </div>
-                <div className="flex flex-1 flex-col gap-3.5 px-6 pt-[22px] pb-[26px]">
-                  <div>
-                    <h3 className="mb-1 font-display text-[18px] text-text">{partner.name}</h3>
-                    <p className="m-0 text-[12.5px] text-text-faint">{partner.tagline}</p>
+      <section className="section">
+        <div className="container-page">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {partners.map((partner, i) => (
+              <Reveal key={partner.name} delayMs={(i % 3) * 70} className="h-full">
+                <article className="card card-hover group flex h-full flex-col overflow-hidden">
+                  <div className="relative aspect-[21/9] w-full overflow-hidden border-b border-line">
+                    <Image
+                      src={partner.banner}
+                      alt={partner.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {partner.tags.map((tag) => (
-                      <span key={tag} className="tag-pill text-[11px]">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <CopyButton
-                    text={partner.ip}
-                    className="flex w-full items-center justify-between gap-2.5 rounded-[10px] border border-panel-line bg-black/25 px-3.5 py-2.5 font-mono text-[13px] text-text hover:border-paragon-glow"
-                  >
-                    <span>{partner.ip}</span>
-                    <span aria-hidden="true" className="text-text-faint">⧉</span>
-                  </CopyButton>
-                  <div className="mt-auto flex gap-2.5 pt-1">
-                    <a href={partner.discordHref} target="_blank" rel="noopener" className="partner-btn">
-                      Discord
-                    </a>
-                    <a
-                      href={partner.visitHref}
-                      target="_blank"
-                      rel="noopener"
-                      className="partner-btn partner-btn-primary"
+
+                  <div className="flex flex-1 flex-col gap-4 p-5">
+                    <div>
+                      <h2 className="text-[16px] font-bold tracking-tight text-fg">{partner.name}</h2>
+                      <p className="mt-1 text-[13px] text-fg-subtle">{partner.tagline}</p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {partner.tags.map((tag) => (
+                        <span key={tag} className="pill">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <CopyButton
+                      text={partner.ip}
+                      className="flex w-full items-center gap-2.5 rounded-lg border border-line bg-black/25 px-3 py-2.5 font-mono text-[12px] text-fg-muted transition-colors hover:border-brand/50 hover:text-fg"
                     >
-                      Visit Server
-                    </a>
+                      <span className="min-w-0 flex-1 truncate text-left">{partner.ip}</span>
+                      <CopyGlyph size={14} className="shrink-0" />
+                    </CopyButton>
+
+                    <div className="mt-auto flex gap-2 pt-1">
+                      <a
+                        href={partner.discordHref}
+                        target="_blank"
+                        rel="noopener"
+                        className="btn btn-secondary flex-1 px-3 py-2.5 text-[13px]"
+                      >
+                        Discord
+                      </a>
+                      <a
+                        href={partner.visitHref}
+                        target="_blank"
+                        rel="noopener"
+                        className="btn btn-primary flex-1 px-3 py-2.5 text-[13px]"
+                      >
+                        Visit
+                        <ExternalGlyph size={14} />
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </article>
+                </article>
+              </Reveal>
             ))}
 
-            <div
-              aria-hidden="true"
-              className="flex min-h-[260px] flex-col items-center justify-center gap-2.5 rounded-[14px] border border-dashed border-panel-line px-6 py-10 text-center text-text-faint"
-            >
-              <span className="font-display text-[28px] text-text-faint">+</span>
-              <p className="m-0 max-w-[22ch] text-[13px]">More partner servers featured here soon</p>
-            </div>
+            <Reveal delayMs={140} className="h-full">
+              <div className="flex h-full min-h-[280px] flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-line p-8 text-center">
+                <span className="grid h-10 w-10 place-items-center rounded-full border border-line text-lg text-fg-subtle">
+                  +
+                </span>
+                <p className="max-w-[22ch] text-[13px] text-fg-subtle">
+                  More partner servers featured here soon
+                </p>
+              </div>
+            </Reveal>
           </div>
 
-          <div className="mt-[60px] rounded-[20px] border border-panel-line bg-linear-[160deg] from-panel to-[rgba(19,16,19,0.4)] px-10 py-10 text-center">
-            <h3 className="mb-2.5 font-display text-[22px] text-text">Want to see your server here?</h3>
-            <p className="mb-[22px] text-sm text-text-muted">
-              Apply to partner with Paragon Network and get featured on this page.
-            </p>
-            <a href="https://discord.gg/nmYHvnCa4T" target="_blank" rel="noopener" className="btn btn-primary">
-              Apply on Discord
-            </a>
-          </div>
+          <Reveal delayMs={120}>
+            <div className="mt-14 rounded-2xl border border-line bg-surface px-6 py-12 text-center sm:px-12">
+              <h2 className="h-section">Want to see your server here?</h2>
+              <p className="lede mx-auto mt-4 max-w-md">
+                Apply to partner with Paragon Network and get featured on this page.
+              </p>
+              <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener"
+                className="btn btn-primary mt-8"
+              >
+                Apply on Discord
+                <ExternalGlyph size={15} />
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>

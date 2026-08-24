@@ -1,14 +1,22 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-void: #0a0b16;
-  --color-void-deep: #050510;
-  --color-panel: #12142b;
-  --color-panel-line: rgba(155, 93, 229, 0.16);
+  /* Surfaces — deep, cool, layered */
+  --color-ink: #050509;
+  --color-base: #0a0a11;
+  --color-surface: #0f0f18;
+  --color-surface-2: #16161f;
 
-  --color-paragon: #9b5de5;
-  --color-paragon-glow: #c77dff;
+  /* Hairlines */
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line-strong: rgba(255, 255, 255, 0.14);
 
+  /* Brand — matched to the Paragon logo */
+  --color-brand: #9b5de5;
+  --color-brand-bright: #c77dff;
+  --color-brand-deep: #6d28d9;
+
+  /* Game mode accents */
   --color-survival: #8b5cf6;
   --color-lifesteal: #ef4444;
   --color-earth: #3b82f6;
@@ -17,56 +25,76 @@
   --color-cobblemon: #ec4899;
   --color-skyblock: #06b6d4;
 
-  --color-text: #ece9f7;
-  --color-text-muted: #9c98b5;
-  --color-text-faint: #6b6885;
+  /* Foreground */
+  --color-fg: #f2f1f7;
+  --color-fg-muted: #a3a1b4;
+  --color-fg-subtle: #6b6a7d;
 
-  --font-display: var(--font-cinzel), serif;
-  --font-body: var(--font-manrope), sans-serif;
-  --font-mono: var(--font-jetbrains-mono), monospace;
+  /* Semantic */
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
 
-  --animate-emblem-pulse: emblem-pulse 4.5s ease-in-out infinite;
-  --animate-scroll-cue-move: scroll-cue-move 1.8s ease-in-out infinite;
-  --animate-partners-spin: partners-spin 18s linear infinite;
-  --animate-partners-spin-reverse: partners-spin 12s linear infinite reverse;
+  --font-display: var(--font-cinzel), Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --animate-drift: drift 14s ease-in-out infinite;
+  --animate-drift-slow: drift 20s ease-in-out infinite reverse;
+  --animate-fade-in: fade-in 0.4s ease-out both;
+  --animate-slide-down: slide-down 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes emblem-pulse {
+@keyframes drift {
   0%,
   100% {
-    filter: drop-shadow(0 0 10px rgba(199, 125, 255, 0.4));
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    filter: drop-shadow(0 0 26px rgba(199, 125, 255, 0.8));
+    transform: translate3d(3%, -4%, 0) scale(1.08);
   }
 }
 
-@keyframes scroll-cue-move {
-  0% {
-    opacity: 1;
-    top: 6px;
-  }
-  70% {
-    opacity: 0;
-    top: 18px;
-  }
-  100% {
-    opacity: 0;
-    top: 6px;
-  }
-}
-
-@keyframes partners-spin {
+@keyframes fade-in {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-brand) 40%, transparent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-bright);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -79,84 +107,69 @@ html {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
   }
-}
-
-body {
-  background: var(--color-void);
-  color: var(--color-text);
-  font-family: var(--font-body);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-paragon-glow);
-  outline-offset: 3px;
-  border-radius: 4px;
 }
 
 @layer components {
-  .btn {
-    @apply inline-block rounded-full px-[30px] py-[14px] font-body text-sm font-bold tracking-wide transition duration-200 ease-out;
-  }
-  .btn-primary {
-    @apply text-white shadow-[0_0_24px_rgba(155,93,229,0.45)] bg-gradient-to-br from-paragon to-[#6d28d9] hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(199,125,255,0.65)];
-  }
-  .btn-ghost {
-    @apply border border-panel-line text-text hover:border-paragon-glow hover:text-paragon-glow;
+  /* Layout ------------------------------------------------------------- */
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
   }
 
+  .section {
+    @apply py-20 sm:py-28;
+  }
+
+  /* Typography --------------------------------------------------------- */
   .eyebrow {
-    @apply mb-2.5 text-center font-mono text-xs tracking-[0.18em] text-paragon-glow;
+    @apply font-mono text-[11px] font-medium tracking-[0.2em] text-brand-bright uppercase;
   }
 
-  .section-title {
-    @apply mb-14 text-center font-display text-[clamp(28px,4vw,40px)] text-text;
+  .h-section {
+    @apply text-[clamp(1.75rem,3.6vw,2.75rem)] leading-[1.1] font-bold tracking-[-0.02em] text-fg;
   }
 
-  .mode-card {
-    --rift: var(--color-paragon);
-    @apply relative overflow-hidden rounded-[14px] border border-panel-line bg-gradient-to-b from-panel to-panel/50 px-[22px] pt-7 pb-[26px] transition duration-300 ease-out hover:-translate-y-1.5;
-  }
-  .mode-card:hover {
-    border-color: var(--rift);
-  }
-  .mode-card::before {
-    content: "";
-    position: absolute;
-    inset: -40% -40% auto auto;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, var(--rift), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.45s ease;
-    pointer-events: none;
-  }
-  .mode-card:hover::before {
-    opacity: 0.22;
+  .lede {
+    @apply text-[15px] leading-relaxed text-fg-muted sm:text-base;
   }
 
-  .connect-card {
-    @apply rounded-[14px] border border-panel-line bg-panel p-[26px] text-center;
+  /* Buttons ------------------------------------------------------------ */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold whitespace-nowrap transition-all duration-200 ease-out;
   }
 
-  .connect-value {
-    @apply flex w-full items-center justify-center gap-2.5 rounded-[10px] border border-panel-line bg-black/25 px-4 py-3.5 font-mono text-[14.5px] text-text transition duration-200 ease-out hover:border-paragon-glow hover:bg-paragon/8;
+  .btn-primary {
+    @apply bg-brand text-white shadow-[0_1px_0_0_rgba(255,255,255,0.12)_inset,0_8px_24px_-8px_rgba(155,93,229,0.7)] hover:-translate-y-px hover:bg-brand-bright hover:shadow-[0_1px_0_0_rgba(255,255,255,0.16)_inset,0_12px_28px_-8px_rgba(199,125,255,0.8)] active:translate-y-0;
   }
 
-  .tag-pill {
-    @apply rounded-full border border-panel-line px-2.5 py-1 text-[11.5px] text-text-muted;
+  .btn-secondary {
+    @apply border border-line-strong bg-white/[0.03] text-fg hover:-translate-y-px hover:border-brand/60 hover:bg-white/[0.06] active:translate-y-0;
   }
 
-  .partner-card {
-    @apply flex flex-col overflow-hidden rounded-[14px] border border-panel-line bg-gradient-to-b from-panel to-panel/50 transition duration-300 ease-out hover:-translate-y-1 hover:border-paragon-glow;
+  .btn-ghost {
+    @apply text-fg-muted hover:bg-white/[0.05] hover:text-fg;
   }
 
-  .partner-btn {
-    @apply flex-1 rounded-full border border-panel-line px-3.5 py-2.5 text-center text-[13px] font-bold text-text transition duration-200 ease-out hover:border-paragon-glow hover:text-paragon-glow;
+  /* Surfaces ----------------------------------------------------------- */
+  .card {
+    @apply rounded-xl border border-line bg-surface transition-all duration-300 ease-out;
   }
 
-  .partner-btn-primary {
-    @apply border-none bg-gradient-to-br from-paragon to-[#6d28d9] text-white hover:text-white hover:opacity-90;
+  .card-hover {
+    @apply hover:-translate-y-1 hover:border-line-strong hover:bg-surface-2 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.8)];
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-md border border-line px-2 py-1 text-[11px] font-medium text-fg-muted;
+  }
+
+  /* Decorative --------------------------------------------------------- */
+  .bg-dots {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+    background-size: 34px 34px;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
   }
 }

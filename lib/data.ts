@@ -1,8 +1,21 @@
-export type ModeKey = "survival" | "lifesteal" | "earth" | "minigames" | "community" | "cobblemon" | "skyblock";
+export const SERVER_IP = "paragonnetwork.us";
+export const DISCORD_URL = "https://discord.gg/nmYHvnCa4T";
+export const STORE_URL = "https://paragon-network-shop.tebex.io";
+export const STAFF_FORM_URL = "https://forms.gle/kLN4kk4oYATqjhae7";
+
+export type ModeKey =
+  | "survival"
+  | "lifesteal"
+  | "earth"
+  | "minigames"
+  | "community"
+  | "cobblemon"
+  | "skyblock";
 
 export interface GameMode {
   key: ModeKey;
   name: string;
+  blurb: string;
   features: string[];
 }
 
@@ -10,41 +23,63 @@ export const gameModes: GameMode[] = [
   {
     key: "survival",
     name: "Survival",
-    features: ["Classic survival", "Player shops", "Land claims", "Custom enchantments", "Active economy"],
+    blurb: "The classic experience, refined with a player-driven economy.",
+    features: ["Player shops", "Land claims", "Custom enchantments", "Active economy"],
   },
   {
     key: "lifesteal",
     name: "Lifesteal",
-    features: ["Steal hearts", "Custom abilities", "PvP focused", "Leaderboards", "Non-stop action"],
+    blurb: "High-stakes PvP where every fight costs you hearts.",
+    features: ["Steal hearts", "Custom abilities", "PvP focused", "Leaderboards"],
   },
   {
     key: "earth",
     name: "Earth",
-    features: ["Custom Earth map", "Towns & nations", "Grief protection", "Resource world", "War & diplomacy"],
-  },
-  {
-    key: "minigames",
-    name: "Mini-Games",
-    features: ["Fun mini-games", "Party with friends", "Regular updates", "Tournaments", "Rewards & prizes"],
-  },
-  {
-    key: "community",
-    name: "Community",
-    features: ["Friendly community", "Events & giveaways", "Suggestions matter", "Active Discord", "Always improving"],
+    blurb: "Build a nation on a scale replica of the real world.",
+    features: ["Custom Earth map", "Towns & nations", "Grief protection", "War & diplomacy"],
   },
   {
     key: "cobblemon",
     name: "Cobblemon",
-    features: ["Catch & battle Pokémon", "Gyms & elite four", "Trading & breeding", "Custom spawns", "Pokédex rewards"],
+    blurb: "Catch, train and battle across a custom-tuned region.",
+    features: ["Catch & battle", "Gyms & elite four", "Trading & breeding", "Pokédex rewards"],
   },
   {
     key: "skyblock",
     name: "Skyblock",
-    features: ["Private islands", "Custom skyblock economy", "Island upgrades", "Void world", "Leaderboards & challenges"],
+    blurb: "Start on a floating island and build an empire from nothing.",
+    features: ["Private islands", "Island upgrades", "Custom economy", "Challenges"],
+  },
+  {
+    key: "minigames",
+    name: "Mini-Games",
+    blurb: "Quick rounds, party queues and seasonal tournaments.",
+    features: ["Party with friends", "Regular updates", "Tournaments", "Rewards & prizes"],
+  },
+  {
+    key: "community",
+    name: "Community",
+    blurb: "Events, giveaways and a staff team that actually listens.",
+    features: ["Events & giveaways", "Suggestions matter", "Active Discord", "Always improving"],
   },
 ];
 
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+export const stats: Stat[] = [
+  { value: "7", label: "Game modes" },
+  { value: "24/7", label: "Uptime" },
+  { value: "Java + Bedrock", label: "Cross-play" },
+  { value: "1.21+", label: "Version" },
+];
+
+export type ConnectIconKey = "server" | "discord" | "store" | "wiki" | "vote" | "mail" | "staff";
+
 export interface ConnectCard {
+  icon: ConnectIconKey;
   label: string;
   value: string;
   tags: string[];
@@ -55,47 +90,54 @@ export interface ConnectCard {
 
 export const connectCards: ConnectCard[] = [
   {
-    label: "IP Address",
-    value: "paragonnetwork.us",
-    copy: "paragonnetwork.us",
+    icon: "server",
+    label: "Server address",
+    value: SERVER_IP,
+    copy: SERVER_IP,
     tags: ["Java Edition", "Bedrock Edition"],
   },
   {
-    label: "Join Our Discord",
+    icon: "discord",
+    label: "Discord",
     value: "discord.gg/nmYHvnCa4T",
-    href: "https://discord.gg/nmYHvnCa4T",
-    tags: ["Chat", "Events", "Giveaways", "Support"],
+    href: DISCORD_URL,
+    tags: ["Chat", "Events", "Support"],
   },
   {
-    label: "Visit Our Store",
+    icon: "store",
+    label: "Store",
     value: "paragon-network-shop.tebex.io",
-    href: "https://paragon-network-shop.tebex.io",
+    href: STORE_URL,
     tags: ["Ranks", "Perks", "Cosmetics"],
   },
   {
+    icon: "wiki",
     label: "Wiki",
     value: "wiki.paragonnetwork.us",
     href: "#",
     tags: ["Guides", "Rules"],
   },
   {
-    label: "Vote for Us",
-    value: "Vote Now",
+    icon: "vote",
+    label: "Vote",
+    value: "13 server lists",
     href: "/vote",
     internal: true,
-    tags: ["Earn rewards"],
+    tags: ["Earn rewards", "Daily"],
   },
   {
-    label: "Email Us",
+    icon: "mail",
+    label: "Business enquiries",
     value: "paragonnetwork.usa@gmail.com",
     copy: "paragonnetwork.usa@gmail.com",
-    tags: ["Business & support"],
+    tags: ["Business", "Support"],
   },
   {
-    label: "Staff Applications",
-    value: "Apply Now",
-    href: "https://forms.gle/kLN4kk4oYATqjhae7",
-    tags: ["Join the team"],
+    icon: "staff",
+    label: "Staff applications",
+    value: "Apply to join the team",
+    href: STAFF_FORM_URL,
+    tags: ["Now open"],
   },
 ];
 
@@ -140,4 +182,11 @@ export const partners: Partner[] = [
     discordHref: "https://discord.gg/HZ33WY4RdH",
     visitHref: "https://www.curseforge.com/minecraft/modpacks/otherworlds-awakening",
   },
+];
+
+export const navLinks = [
+  { href: "/#modes", label: "Game Modes" },
+  { href: "/services", label: "Server Status" },
+  { href: "/partners", label: "Partners" },
+  { href: "/vote", label: "Vote" },
 ];

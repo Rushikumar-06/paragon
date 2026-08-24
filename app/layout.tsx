@@ -4,7 +4,6 @@ import { Cinzel, Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { CursorGlow } from "@/components/CursorGlow";
 import { ToastProvider } from "@/components/ToastProvider";
 
 const cinzel = Cinzel({
@@ -26,17 +25,19 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paragon Network — One Network. Endless Adventures.",
+  title: {
+    default: "Paragon Network — One Network. Endless Adventures.",
+    template: "%s — Paragon Network",
+  },
   description:
-    "Paragon Network — a Minecraft server network with Survival, Lifesteal, Earth, Mini-Games and a community that never stops growing.",
+    "Paragon Network is a Minecraft server network with Survival, Lifesteal, Earth, Cobblemon, Skyblock and Mini-Games — playable on both Java and Bedrock.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${cinzel.variable} ${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-void font-body text-text antialiased">
+      <body className="min-h-screen bg-base text-fg">
         <ToastProvider>
-          <CursorGlow />
           <Header />
           <main>{children}</main>
           <Footer />

@@ -1,13 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { Starfield } from "@/components/Starfield";
+import { Aurora } from "@/components/Aurora";
 import { Reveal } from "@/components/Reveal";
 import { CopyButton } from "@/components/CopyButton";
-import { ModeIcon } from "@/components/icons";
-import { gameModes, connectCards } from "@/lib/data";
+import { SectionHeading } from "@/components/SectionHeading";
+import {
+  ArrowRightGlyph,
+  CheckGlyph,
+  ConnectIcon,
+  CopyGlyph,
+  ExternalGlyph,
+  ModeIcon,
+} from "@/components/icons";
+import {
+  connectCards,
+  gameModes,
+  stats,
+  DISCORD_URL,
+  SERVER_IP,
+  STORE_URL,
+} from "@/lib/data";
 
-const riftColorVar: Record<string, string> = {
+const accent: Record<string, string> = {
   survival: "var(--color-survival)",
   lifesteal: "var(--color-lifesteal)",
   earth: "var(--color-earth)",
@@ -20,93 +35,133 @@ const riftColorVar: Record<string, string> = {
 export default function Home() {
   return (
     <>
-      {/* HERO */}
-      <section
-        id="top"
-        className="relative flex min-h-[92vh] items-center overflow-hidden"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 55% at 50% 0%, rgba(155,93,229,0.16), transparent 60%), linear-gradient(180deg, var(--color-void-deep), var(--color-void) 70%)",
-        }}
-      >
-        <Starfield />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-[10%] left-1/2 z-0 h-[900px] w-[900px] max-w-[140vw] -translate-x-1/2"
-          style={{ background: "radial-gradient(circle, rgba(199,125,255,0.18), transparent 65%)" }}
-        />
-        <div className="relative z-10 mx-auto flex w-full max-w-[1140px] flex-col items-center px-6 pt-10 pb-[60px] text-center">
-          <div className="mb-5">
-            <Image
-              src="/logo.png"
-              alt=""
-              width={128}
-              height={128}
-              className="h-32 w-32 animate-emblem-pulse object-contain"
-            />
-          </div>
-          <h1 className="m-0 font-display text-[clamp(44px,9vw,92px)] leading-[0.95] tracking-[0.02em] text-text [text-shadow:0_0_40px_rgba(155,93,229,0.35)]">
+      {/* ---------------- HERO ---------------- */}
+      <section className="relative isolate overflow-hidden pt-14 pb-20 sm:pt-20 sm:pb-28">
+        <Aurora />
+
+        <div className="container-page relative flex flex-col items-center text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.04] px-3.5 py-1.5 text-[12.5px] font-medium text-fg-muted">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
+            </span>
+            7 game modes · Java &amp; Bedrock
+          </span>
+
+          <Image
+            src="/logo.png"
+            alt="Paragon Network"
+            width={96}
+            height={96}
+            priority
+            className="mt-9 h-20 w-20 object-contain sm:h-24 sm:w-24"
+          />
+
+          <h1 className="mt-7 font-display text-[clamp(2.75rem,9vw,5.25rem)] leading-[0.95] font-black tracking-[0.01em] text-fg">
             PARAGON
-            <span className="mt-1.5 block text-[0.52em] tracking-[0.22em] text-paragon-glow">NETWORK</span>
+            <span className="mt-2 block text-[0.3em] font-bold tracking-[0.42em] text-brand-bright">
+              NETWORK
+            </span>
           </h1>
-          <p className="mt-[22px] text-[clamp(15px,2vw,19px)] font-semibold tracking-[0.08em] text-text-muted uppercase">
-            One network. Endless adventures.
+
+          <p className="lede mt-7 max-w-lg text-balance sm:text-[17px]">
+            One network, endless adventures. Seven curated game modes, an active community and a staff
+            team that keeps the servers running around the clock.
           </p>
 
-          <ul className="mt-8 flex flex-wrap justify-center gap-7 text-[13px] font-semibold text-text-muted">
-            {["Active Community", "Frequent Events", "Dedicated Staff"].map((badge) => (
-              <li key={badge} className="flex items-center gap-2">
-                <span className="h-[7px] w-[7px] rounded-full bg-paragon-glow shadow-[0_0_8px_var(--color-paragon-glow)]" />
-                {badge}
-              </li>
-            ))}
-          </ul>
+          {/* Server IP */}
+          <div className="mt-10 w-full max-w-md">
+            <CopyButton
+              text={SERVER_IP}
+              className="group flex w-full items-center gap-3 rounded-xl border border-line-strong bg-surface/80 p-2 pl-5 backdrop-blur-sm transition-all duration-200 hover:border-brand/60 hover:bg-surface-2"
+            >
+              <span className="min-w-0 flex-1 truncate text-left font-mono text-[15px] font-medium text-fg">
+                {SERVER_IP}
+              </span>
+              <span className="btn btn-primary shrink-0 px-4 py-2.5 text-[13px]">
+                <CopyGlyph size={15} />
+                Copy IP
+              </span>
+            </CopyButton>
+            <p className="mt-2.5 text-xs text-fg-subtle">Click to copy · works on Java and Bedrock</p>
+          </div>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href="/#connect" className="btn btn-primary">
-              Get Started
-            </Link>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <a href={DISCORD_URL} target="_blank" rel="noopener" className="btn btn-secondary">
+              Join our Discord
+              <ExternalGlyph size={15} />
+            </a>
             <Link href="/#modes" className="btn btn-ghost">
-              Explore Modes
+              Explore game modes
+              <ArrowRightGlyph size={15} />
             </Link>
           </div>
         </div>
-        <Link
-          href="/#modes"
-          aria-label="Scroll to game modes"
-          className="absolute bottom-7 left-1/2 z-10 h-9 w-[22px] -translate-x-1/2 rounded-[12px] border-[1.5px] border-text-faint"
-        >
-          <span className="absolute top-1.5 left-1/2 h-2 w-1 -translate-x-1/2 animate-scroll-cue-move rounded-sm bg-paragon-glow" />
-        </Link>
+
+        {/* Stats */}
+        <div className="container-page relative mt-20">
+          <Reveal>
+            <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex flex-col-reverse items-center bg-surface px-5 py-7 text-center"
+                >
+                  <dt className="mt-1.5 text-xs tracking-wide text-fg-subtle">{stat.label}</dt>
+                  <dd className="text-xl font-bold tracking-tight text-fg sm:text-2xl">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
       </section>
 
-      {/* GAME MODES */}
-      <section id="modes" className="relative py-[120px]">
-        <div className="mx-auto max-w-[1140px] px-6">
-          <p className="eyebrow">FIVE WORLDS, ONE NETWORK</p>
-          <h2 className="section-title">Choose your adventure</h2>
+      {/* ---------------- GAME MODES ---------------- */}
+      <section id="modes" className="section scroll-mt-20 border-t border-line">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Seven worlds, one network"
+            title="Choose your adventure"
+            subtitle="Every mode runs on its own tuned server with dedicated staff, regular updates and progression that actually means something."
+          />
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-5">
-            {gameModes.map((mode) => (
-              <Reveal key={mode.key}>
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {gameModes.map((mode, i) => (
+              <Reveal key={mode.key} delayMs={(i % 3) * 70}>
                 <article
-                  className="mode-card h-full"
-                  style={{ "--rift": riftColorVar[mode.key] } as CSSProperties}
+                  className="card card-hover group relative h-full overflow-hidden p-6"
+                  style={{ "--accent": accent[mode.key] } as CSSProperties}
                 >
-                  <div
-                    className="relative z-10 mb-[18px] grid h-11 w-11 place-items-center rounded-[10px]"
-                    style={{ background: `color-mix(in srgb, ${riftColorVar[mode.key]} 18%, transparent)`, color: riftColorVar[mode.key] }}
-                  >
-                    <ModeIcon mode={mode.key} />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 top-0 h-px opacity-40 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent, var(--accent) 50%, transparent)",
+                    }}
+                  />
+
+                  <div className="flex items-center gap-3.5">
+                    <span
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-lg transition-transform duration-300 group-hover:scale-105"
+                      style={{
+                        background: "color-mix(in srgb, var(--accent) 14%, transparent)",
+                        color: "var(--accent)",
+                      }}
+                    >
+                      <ModeIcon mode={mode.key} size={19} />
+                    </span>
+                    <h3 className="text-[17px] font-bold tracking-tight text-fg">{mode.name}</h3>
                   </div>
-                  <h3 className="relative z-10 mb-3.5 font-display text-[19px] text-text">{mode.name}</h3>
-                  <ul className="relative z-10 flex flex-col gap-2">
+
+                  <p className="mt-4 text-[13.5px] leading-relaxed text-fg-muted">{mode.blurb}</p>
+
+                  <ul className="mt-5 space-y-2 border-t border-line pt-5">
                     {mode.features.map((feature) => (
-                      <li key={feature} className="relative pl-4 text-[13.5px] text-text-muted">
-                        <span
-                          className="absolute top-2 left-0 h-1.5 w-1.5 rounded-full"
-                          style={{ background: riftColorVar[mode.key] }}
-                        />
+                      <li key={feature} className="flex items-start gap-2.5 text-[13px] text-fg-muted">
+                        <span className="mt-0.5 shrink-0" style={{ color: "var(--accent)" }}>
+                          <CheckGlyph size={13} />
+                        </span>
                         {feature}
                       </li>
                     ))}
@@ -118,87 +173,152 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PARTNERSHIPS */}
-      <section id="partners" className="py-10 pb-[130px]">
-        <div className="mx-auto max-w-[1140px] px-6">
-          <div className="grid grid-cols-[1.3fr_0.7fr] items-center gap-12 rounded-[20px] border border-panel-line bg-linear-[160deg] from-panel to-[rgba(19,16,19,0.4)] p-[52px] max-[800px]:grid-cols-1 max-[800px]:p-9 max-[800px]:px-6 max-[800px]:text-center">
-            <div>
-              <p className="eyebrow text-left max-[800px]:text-center">GROW TOGETHER</p>
-              <h2 className="section-title mb-[18px] text-left max-[800px]:text-center">Partner with Paragon Network</h2>
-              <p className="mb-2 max-w-[52ch] text-[15.5px] leading-[1.7] text-text-muted max-[800px]:mx-auto">
-                Run a server or community that could use more reach? Our partnerships program plugs you directly
-                into the Paragon hub — cross-promotion with our player base, and the chance to have your server
-                featured in front of our community. If you&apos;re interested in partnering, or in joining our staff
-                team, come talk to us directly.
-              </p>
-              <p className="mb-7 border-l-2 border-panel-line pl-2.5 font-mono text-[11.5px] text-text-faint">
-                Note: pitch copy above is a placeholder — swap in the client&apos;s final wording here.
-              </p>
-              <div className="flex flex-wrap justify-start gap-4 max-[800px]:justify-center">
-                <a
-                  href="https://discord.gg/nmYHvnCa4T"
-                  target="_blank"
-                  rel="noopener"
-                  className="btn btn-primary"
-                >
-                  Apply on Discord
-                </a>
-                <Link href="/partners" className="btn btn-ghost">
-                  See Our Partners
-                </Link>
+      {/* ---------------- PARTNERSHIPS ---------------- */}
+      <section id="partners" className="section border-t border-line">
+        <div className="container-page">
+          <div className="card overflow-hidden">
+            <div className="grid items-center gap-10 p-8 sm:p-12 lg:grid-cols-[1.25fr_0.75fr]">
+              <div>
+                <p className="eyebrow">Grow together</p>
+                <h2 className="h-section mt-3">Partner with Paragon</h2>
+                <p className="lede mt-4 max-w-xl">
+                  Run a server or community that could use more reach? Our partnerships program plugs you
+                  directly into the Paragon hub — cross-promotion with our player base, and a featured spot
+                  in front of our community.
+                </p>
+
+                <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2.5">
+                  {["Cross-promotion", "Featured listing", "Direct staff contact"].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-[13.5px] text-fg-muted">
+                      <span className="text-brand-bright">
+                        <CheckGlyph size={14} />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a href={DISCORD_URL} target="_blank" rel="noopener" className="btn btn-primary">
+                    Apply on Discord
+                    <ExternalGlyph size={15} />
+                  </a>
+                  <Link href="/partners" className="btn btn-secondary">
+                    See our partners
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div aria-hidden="true" className="relative grid h-[220px] place-items-center max-[800px]:order-[-1] max-[800px]:h-40">
-              <div className="absolute h-[200px] w-[200px] animate-partners-spin rounded-full border border-panel-line max-[800px]:h-[140px] max-[800px]:w-[140px]" />
-              <div className="absolute h-[150px] w-[150px] animate-partners-spin-reverse rounded-full border border-paragon/30 max-[800px]:h-[100px] max-[800px]:w-[100px]" />
-              <Image
-                src="/logo.png"
-                alt=""
-                width={84}
-                height={84}
-                className="h-[84px] w-[84px] object-contain drop-shadow-[0_0_20px_rgba(199,125,255,0.5)]"
-              />
+
+              <div
+                aria-hidden="true"
+                className="relative hidden aspect-square items-center justify-center lg:flex"
+              >
+                <div
+                  className="absolute inset-6 rounded-full opacity-30 blur-3xl"
+                  style={{ background: "radial-gradient(circle, var(--color-brand), transparent 70%)" }}
+                />
+                <div className="absolute inset-4 rounded-full border border-line" />
+                <div className="absolute inset-12 rounded-full border border-line" />
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={104}
+                  height={104}
+                  className="relative h-24 w-24 object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CONNECT */}
-      <section id="connect" className="pb-[130px]">
-        <div className="mx-auto max-w-[1140px] px-6">
-          <p className="eyebrow">JOIN PARAGON NETWORK TODAY</p>
-          <h2 className="section-title">Connect</h2>
+      {/* ---------------- CONNECT ---------------- */}
+      <section id="connect" className="section scroll-mt-20 border-t border-line">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Get started"
+            title="Connect with us"
+            subtitle="Everything you need to jump in — the server address, our Discord, the store and more."
+          />
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
-            {connectCards.map((card) => (
-              <div key={card.label} className="connect-card">
-                <p className="mb-3.5 text-xs font-bold tracking-[0.12em] text-paragon-glow uppercase">{card.label}</p>
-                {card.copy ? (
-                  <CopyButton text={card.copy} className="connect-value">
-                    <span>{card.value}</span>
-                    <span aria-hidden="true" className="text-sm text-text-faint">⧉</span>
-                  </CopyButton>
-                ) : card.internal ? (
-                  <Link href={card.href ?? "#"} className="connect-value">
-                    <span>{card.value}</span>
-                    <span aria-hidden="true" className="text-sm text-text-faint">↗</span>
-                  </Link>
-                ) : (
-                  <a href={card.href} target="_blank" rel="noopener" className="connect-value">
-                    <span>{card.value}</span>
-                    <span aria-hidden="true" className="text-sm text-text-faint">↗</span>
-                  </a>
-                )}
-                <div className="mt-4 flex flex-wrap justify-center gap-2">
-                  {card.tags.map((tag) => (
-                    <span key={tag} className="tag-pill">
-                      {tag}
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {connectCards.map((card, i) => {
+              const body = (
+                <>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-lg bg-brand/10 text-brand-bright transition-colors duration-300 group-hover:bg-brand/20">
+                      <ConnectIcon name={card.icon} size={18} />
                     </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+                    <span className="text-fg-subtle transition-all duration-300 group-hover:text-brand-bright">
+                      {card.copy ? <CopyGlyph size={16} /> : <ExternalGlyph size={16} />}
+                    </span>
+                  </div>
+
+                  <p className="mt-5 text-[13px] font-semibold tracking-wide text-fg-subtle uppercase">
+                    {card.label}
+                  </p>
+                  <p className="mt-1.5 truncate font-mono text-[14px] text-fg">{card.value}</p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {card.tags.map((tag) => (
+                      <span key={tag} className="pill">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              );
+
+              const cls = "card card-hover group block h-full w-full p-6 text-left";
+
+              return (
+                <Reveal key={card.label} delayMs={(i % 3) * 70} className="h-full">
+                  {card.copy ? (
+                    <CopyButton text={card.copy} className={cls}>
+                      {body}
+                    </CopyButton>
+                  ) : card.internal ? (
+                    <Link href={card.href ?? "#"} className={cls}>
+                      {body}
+                    </Link>
+                  ) : (
+                    <a href={card.href} target="_blank" rel="noopener" className={cls}>
+                      {body}
+                    </a>
+                  )}
+                </Reveal>
+              );
+            })}
           </div>
+        </div>
+      </section>
+
+      {/* ---------------- CTA ---------------- */}
+      <section className="border-t border-line">
+        <div className="container-page py-20 sm:py-24">
+          <Reveal>
+            <div className="relative isolate overflow-hidden rounded-2xl border border-line bg-surface px-6 py-14 text-center sm:px-12">
+              <div
+                aria-hidden="true"
+                className="absolute -top-1/2 left-1/2 -z-10 h-[400px] w-[700px] max-w-[150vw] -translate-x-1/2 rounded-full opacity-25 blur-[100px]"
+                style={{ background: "radial-gradient(circle, var(--color-brand), transparent 70%)" }}
+              />
+              <h2 className="h-section">Ready to play?</h2>
+              <p className="lede mx-auto mt-4 max-w-md">
+                Add the server, hop in Discord and pick your world. See you in game.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <CopyButton text={SERVER_IP} className="btn btn-primary">
+                  <CopyGlyph size={15} />
+                  Copy {SERVER_IP}
+                </CopyButton>
+                <a href={STORE_URL} target="_blank" rel="noopener" className="btn btn-secondary">
+                  Visit the store
+                  <ExternalGlyph size={15} />
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>
