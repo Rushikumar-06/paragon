@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 const navLinks = [
   { href: "/#modes", label: "Game Modes" },
   { href: "/partners", label: "Partners" },
+  { href: "/services", label: "Services" },
   { href: "/vote", label: "Vote" },
   { href: "/#connect", label: "Connect" },
 ];

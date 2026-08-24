@@ -13,6 +13,8 @@ const riftColorVar: Record<string, string> = {
   earth: "var(--color-earth)",
   minigames: "var(--color-minigames)",
   community: "var(--color-community)",
+  cobblemon: "var(--color-cobblemon)",
+  skyblock: "var(--color-skyblock)",
 };
 
 export default function Home() {

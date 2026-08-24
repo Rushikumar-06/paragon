@@ -1,4 +1,4 @@
-export type ModeKey = "survival" | "lifesteal" | "earth" | "minigames" | "community";
+export type ModeKey = "survival" | "lifesteal" | "earth" | "minigames" | "community" | "cobblemon" | "skyblock";
 
 export interface GameMode {
   key: ModeKey;
@@ -31,6 +31,16 @@ export const gameModes: GameMode[] = [
     key: "community",
     name: "Community",
     features: ["Friendly community", "Events & giveaways", "Suggestions matter", "Active Discord", "Always improving"],
+  },
+  {
+    key: "cobblemon",
+    name: "Cobblemon",
+    features: ["Catch & battle Pokémon", "Gyms & elite four", "Trading & breeding", "Custom spawns", "Pokédex rewards"],
+  },
+  {
+    key: "skyblock",
+    name: "Skyblock",
+    features: ["Private islands", "Custom skyblock economy", "Island upgrades", "Void world", "Leaderboards & challenges"],
   },
 ];
 

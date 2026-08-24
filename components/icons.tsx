@@ -56,6 +56,20 @@ const icons: Record<ModeKey, (props: SVGProps<SVGSVGElement>) => ReactElement> =
       <path d="M17 14c2.8 0 5 2.2 5 5" />
     </IconBase>
   ),
+  cobblemon: (props) => (
+    <IconBase {...props}>
+      <circle cx={12} cy={12} r={9} />
+      <path d="M3 12h6m6 0h6" />
+      <circle cx={12} cy={12} r={2.5} />
+    </IconBase>
+  ),
+  skyblock: (props) => (
+    <IconBase {...props}>
+      <rect x={7.5} y={7.5} width={9} height={9} rx={1.5} transform="rotate(45 12 12)" />
+      <circle cx={6} cy={18} r={0.8} fill="currentColor" stroke="none" />
+      <circle cx={18} cy={18} r={0.8} fill="currentColor" stroke="none" />
+    </IconBase>
+  ),
 };
 
 export function ModeIcon({ mode, ...props }: { mode: ModeKey } & SVGProps<SVGSVGElement>) {
